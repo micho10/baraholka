@@ -13,6 +13,6 @@
     <option name="explainTypeErrors" value="true" />
     <option name="continuations" value="true" />
     <option name="incrementalityType" value="SBT" />
-    <profile name="sbt 1" modules="baraholka" />
+    <profile name="sbt 1" modules="baraholka,hello-lagom,bf-lagom-api,bf-lagom-impl,hello-lagom-api,hello-lagom-impl,hello-lagom-stream-api,hello-lagom-stream-impl" />
   </component>
 </project>

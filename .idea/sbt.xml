@@ -7,10 +7,22 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/bf-lagom-api" />
+            <option value="$PROJECT_DIR$/bf-lagom-api/project" />
+            <option value="$PROJECT_DIR$/bf-lagom-impl" />
+            <option value="$PROJECT_DIR$/bf-lagom-impl/project" />
+            <option value="$PROJECT_DIR$/hello-lagom-api" />
+            <option value="$PROJECT_DIR$/hello-lagom-api/project" />
+            <option value="$PROJECT_DIR$/hello-lagom-impl" />
+            <option value="$PROJECT_DIR$/hello-lagom-impl/project" />
+            <option value="$PROJECT_DIR$/hello-lagom-stream-api" />
+            <option value="$PROJECT_DIR$/hello-lagom-stream-api/project" />
+            <option value="$PROJECT_DIR$/hello-lagom-stream-impl" />
+            <option value="$PROJECT_DIR$/hello-lagom-stream-impl/project" />
             <option value="$PROJECT_DIR$/project" />
           </set>
         </option>
-        <option name="sbtVersion" value="1.1.0" />
+        <option name="sbtVersion" value="1.1.1" />
       </SbtProjectSettings>
     </option>
   </component>
