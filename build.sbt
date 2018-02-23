@@ -9,12 +9,12 @@ val scalaTest = "org.scalatest"            %% "scalatest" % "3.0.4" % Test
 
 lazy val `hello-lagom` = (project in file("."))
   .aggregate(
+    `bf-lagom-api`,
+    `bf-lagom-impl`,
     `hello-lagom-api`,
     `hello-lagom-impl`,
     `hello-lagom-stream-api`,
     `hello-lagom-stream-impl`,
-    `bf-lagom-api`,
-    `bf-lagom-impl`,
   )
 
 lazy val `bf-lagom-api` = (project in file("bf-lagom-api"))

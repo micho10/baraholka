@@ -2,8 +2,6 @@ package com.example.bf.impl
 
 import com.example.bf
 import com.example.bf.api.HellolagomService
-import com.example.hello.api
-import com.example.hello.api.HellolagomService
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.broker.TopicProducer

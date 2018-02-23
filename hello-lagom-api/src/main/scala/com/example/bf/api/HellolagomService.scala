@@ -60,6 +60,8 @@ trait HellolagomService extends Service {
   }
 }
 
+
+
 /**
   * The greeting message class.
   */

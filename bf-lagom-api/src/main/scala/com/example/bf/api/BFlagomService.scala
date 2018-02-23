@@ -1,92 +1,77 @@
 package com.example.bf.api
 
-import akka.{Done, NotUsed}
-import com.lightbend.lagom.scaladsl.api.broker.Topic
-import com.lightbend.lagom.scaladsl.api.broker.kafka.{KafkaProperties, PartitionKeyStrategy}
+import akka.NotUsed
 import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
-import play.api.libs.json.{Format, Json}
-
-object BFlagomService  {
-  val TOPIC_NAME = "crypto"
-}
 
 /**
   * The BF-lagom service interface.
   * <p>
   * This describes everything that Lagom needs to know about how to serve and consume the BFlagomService.
+  * <p>
+  * This interface not only defines how the service is invoked and implemented, it also defines the metadata that describes
+  * how the interface is mapped down onto an underlying transport protocol. Generally, the service descriptor, its implementation
+  * and consumption should remain agnostic to what transport is being used, whether that’s REST, websockets, or some other
+  * transport.
   */
 trait BFlagomService extends Service {
 
-  /**
-    * Example: curl http://localhost:9000/api/hello/Alice
-    */
-  def hello(id: String): ServiceCall[NotUsed, String]
-
-  /**
-    * Example: curl -H "Content-Type: application/json" -X POST -d '{"message":
-    * "Hi"}' http://localhost:9000/api/hello/Alice
-    */
-  def useGreeting(id: String): ServiceCall[GreetingMessage, Done]
-
-
-  /**
-    * This gets published to Kafka.
-    */
-  def greetingsTopic(): Topic[GreetingMessageChanged]
+  /* ******** Name descriptor ******** */
+  def sayBF: ServiceCall[String, String]
 
   override final def descriptor = {
     import Service._
-    // @formatter:off
-    named("hello-lagom")
-      .withCalls(
-        pathCall("/api/hello/:id", hello _),
-        pathCall("/api/hello/:id", useGreeting _)
-      )
-      .withTopics(
-        topic(BFlagomService.TOPIC_NAME, greetingsTopic)
-          // Kafka partitions messages, messages within the same partition will
-          // be delivered in order, to ensure that all messages for the same user
-          // go to the same partition (and hence are delivered in order with respect
-          // to that user), we configure a partition key strategy that extracts the
-          // name as the partition key.
-          .addProperty(
-            KafkaProperties.partitionKeyStrategy,
-            PartitionKeyStrategy[GreetingMessageChanged](_.name)
-          )
-      )
-      .withAutoAcl(true)
-    // @formatter:on
+    named("bf").withCalls(
+      call(sayBF)
+      // Custom name for the call identifier
+//      namedCall("bf", sayBF)
+    )
   }
-}
 
 
-/**
-  * The greeting message class.
-  */
-case class GreetingMessage(message: String)
+  /* ******** Path descriptor ******** */
+//  def getOrder(orderId: Long): ServiceCall[NotUsed, Order]
+//
+//  override def descriptor = {
+//    import Service._
+//    named("orders").withCalls(
+//      pathCall("/order/:id", getOrder _)
+//    )
+//  }
+//
+//  /* Multiple parameters are possible. They'll be passed to the service call method in the order they're extracted from the URL */
+//  def getItem(orderId: Long, itemId: String): ServiceCall[NotUsed, Item]
+//
+//  override def descriptor = {
+//    import Service._
+//    named("orders").withCalls(
+//      pathCall("/order/:orderId/item/:itemId", getItem _)
+//    )
+//  }
+//
+//  /* Query string parameters can also be extracted from the path, using a & separated list after a ? at the end of the path */
+//  def getItems(orderId: Long, pageNo: Int, pageSize: Int): ServiceCall[NotUsed, Seq[Item]]
+//
+//  override def descriptor = {
+//    import Service._
+//    named("orders").withCalls(
+//      pathCall("/order/:orderId/items?pageNo&pageSize", getItems _)
+//    )
+//  }
 
-object GreetingMessage {
-  /**
-    * Format for converting greeting messages to and from JSON.
-    *
-    * This will be picked up by a Lagom implicit conversion from Play's JSON format to Lagom's message serializer.
-    */
-  implicit val format: Format[GreetingMessage] = Json.format[GreetingMessage]
-}
 
+  /* ******** REST identifiers ******** */
+//  def addItem(orderId: Long): ServiceCall[Item, NotUsed]
+//  def getItem(orderId: Long, itemId: String): ServiceCall[NotUsed, Item]
+//  def deleteItem(orderId: Long, itemId: String): ServiceCall[NotUsed, NotUsed]
+//
+//  def descriptor = {
+//    import Service._
+//    import com.lightbend.lagom.scaladsl.api.transport.Method
+//    named("orders").withCalls(
+//      restCall(Method.POST,   "/order/:orderId/item",         addItem _),
+//      restCall(Method.GET,    "/order/:orderId/item/:itemId", getItem _),
+//      restCall(Method.DELETE, "/order/:orderId/item/:itemId", deleteItem _)
+//    )
+//  }
 
-
-/**
-  * The greeting message class used by the topic stream.
-  * Different than [[GreetingMessage]], this message includes the name (id).
-  */
-case class GreetingMessageChanged(name: String, message: String)
-
-object GreetingMessageChanged {
-  /**
-    * Format for converting greeting messages to and from JSON.
-    *
-    * This will be picked up by a Lagom implicit conversion from Play's JSON format to Lagom's message serializer.
-    */
-  implicit val format: Format[GreetingMessageChanged] = Json.format[GreetingMessageChanged]
 }
